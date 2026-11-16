@@ -10,13 +10,13 @@ main{max-width:1040px}.intro{margin:25px 0 36px;max-width:750px}h1{font-size:cla
 <header><a class="brand" href="#">City of NY</a><span class="tag">RETIREMENT PLANNING</span></header>
 <main><div class="intro"><p class="eyebrow">RETIREMENT LEAVE</p><h1>City of NY Retirement Calculator</h1><p>Estimate your retirement leave payout. Choose a category and enter your balances and hourly rate.</p></div>
 <div class="disclaimer" role="note"><strong>Disclaimer: Rough draft</strong><p>Rough draft only. Do not rely on this calculator or its results for retirement planning or payout decisions. Contact your retirement office for official guidance and confirmation of your benefits.</p></div><div class="layout"><form id="form"><section class="main-form"><h2>Your details</h2><label>Category<select id="profile"><option value="manager">Administrative</option><option value="nonmanager">OJ</option><option value="union">Union</option><option value="other">Others</option></select></label><p id="categoryHelp" class="category-help">Administrative and managerial employees.</p>
-<label id="unionChoice" hidden>Union group<select id="unionGroup"><option value="nonmanager">Other administrative union</option><option value="uft">UFT administrative</option></select></label>
-<div class="grid"><label>Annual leave hours<input id="annual" type="number" min="0" step="any" placeholder="e.g. 700" required></label><label>Sick leave hours<input id="sick" type="number" min="0" step="any" placeholder="e.g. 1,260" required></label><label>Hourly rate, $<input id="rate" type="number" min="0.01" step="any" placeholder="e.g. 60" required></label><label>Years of continuous service (optional)<input id="years" type="number" min="0" step="any" placeholder="Only needed for a policy preset"></label></div>
-<details id="advanced"><summary>Additional information (optional)<span>Agency policy, payout assumptions and other leave</span></summary><p>Citywide mode starts with 100% of annual leave and 0% of sick leave, with no cap. These are editable assumptions, not confirmed benefits. Enter the rules your retirement office provides. Blank optional fields use the displayed defaults.</p>
-<label>Calculation basis<select id="basis"><option value="custom">Citywide: custom payout assumptions</option><option value="nycps">NYCPS administrative policy preset</option></select></label>
+<div id="unionChoice" hidden><label>Sick-leave policy<select id="unionGroup"><option value="citywide">Citywide Agreement, covered civilian employees</option><option value="nonmanager">NYCPS non-managerial administrative</option><option value="uft">NYCPS UFT administrative</option><option value="custom">Other agreement: custom assumptions</option></select></label><p>Choose the policy that covers your title. Citywide terminal-leave value is not a promise of a lump-sum cash payment. Uniformed, pedagogical and other special agreements require their own rules.</p></div>
+<div class="grid"><label>Annual leave hours<input id="annual" type="number" min="0" step="any" placeholder="e.g. 700" required></label><label>Sick leave hours<input id="sick" type="number" min="0" step="any" placeholder="e.g. 1,260" required></label><label>Hourly rate, $<input id="rate" type="number" min="0.01" step="any" placeholder="e.g. 60" required></label><label><span id="yearsLabel">Years of continuous service (optional)</span><input id="years" type="number" min="0" step="any" placeholder="Only needed for a policy preset"></label></div>
+<div class="grid"><label>Hours per workday (default 7)<input id="day" type="number" min="0.01" step="any" value="7" placeholder="7"></label><label>Original hire date group<select id="hire"><option value="">Select hire-date group</option><option value="after">On or after July 1, 2004</option><option value="before">Before July 1, 2004</option></select></label></div><details id="advanced"><summary>Additional information (optional)<span>Agency policy, payout assumptions and other leave</span></summary><p>For Union, the policy selected above calculates sick leave automatically. Custom assumptions apply only when custom mode is selected. Custom mode defaults to 100% annual leave, 0% sick leave and no cap. Blank optional fields use the displayed defaults.</p>
+<label id="basisChoice">Calculation basis<select id="basis"><option value="custom">Citywide: custom payout assumptions</option><option value="nycps">NYCPS administrative policy preset</option></select></label>
 <div id="customRules" class="grid"><label>Annual leave payable, %<input id="annualPercent" type="number" min="0" max="100" step="any" value="100" placeholder="100"></label><label>Sick leave payable, %<input id="sickPercent" type="number" min="0" max="100" step="any" value="0" placeholder="0"></label><label>Annual payout limit, hours<input id="annualLimit" type="number" min="0" step="any" placeholder="No limit assumed"></label><label>Sick payout limit, hours<input id="sickLimit" type="number" min="0" step="any" placeholder="No limit assumed"></label><label>Overall payout cap, $<input id="customCap" type="number" min="0" step="any" placeholder="No cap assumed"></label></div><div class="grid">
-<label>Hours per workday<input id="day" type="number" min="0.01" step="any" value="7" placeholder="7"></label>
-<label>Original hire date group<select id="hire"><option value="after">On or after July 1, 2004</option><option value="before">Before July 1, 2004</option></select></label>
+
+
 <label class="manager">Annual accrual, days per year<input id="accrual" type="number" min="0" step="any" value="25" placeholder="25"></label>
 <label class="manager">Final 12-month compensation, $<input id="ceiling" type="number" min="0.01" step="any" placeholder="Auto estimate from hourly rate"></label>
 <label>Vested annual hours<input id="vestedAnnual" type="number" min="0" step="any" value="0" placeholder="0"></label>
@@ -25,7 +25,7 @@ main{max-width:1040px}.intro{margin:25px 0 36px;max-width:750px}h1{font-size:cla
 <label class="manager">Vested hourly rate, $<input id="vestedRate" type="number" min="0.01" step="any" placeholder="Uses hourly rate if blank"></label></div></details>
 <button type="submit" id="calculate">Calculate payout <span aria-hidden="true">↗</span></button><p class="estimate-note">Planning estimate before taxes. Uses your hourly rate; payroll may apply historical rates.</p></section></form>
 <aside><div class="result"><p class="eyebrow">ESTIMATED GROSS PAYOUT</p><div id="total">Ready when you are.</div><p id="status" aria-live="polite">Enter your balances and calculate.</p><div id="breakdown" hidden><dl><dt>Annual leave</dt><dd id="outAnnual"></dd><dt>Sick leave</dt><dd id="outSick"></dd><dt>Compensatory time</dt><dd id="outComp"></dd><dt>Before overall cap</dt><dd id="subtotal"></dd><dt>Overall payout cap</dt><dd id="cap"></dd><dt>Reduction from cap</dt><dd id="reduction"></dd></dl><p id="days"></p><ul id="messages"></ul><button type="button" class="secondary" id="print">Print / save PDF</button><button type="button" class="secondary" id="csv">Download breakdown CSV</button></div></div><p id="error" role="alert"></p><p class="note">Gross estimate before taxes. No employee data is stored or transmitted by this app.</p></aside></div>
-<details class="policy"><summary>Scope and calculation notes</summary><p>This estimates retirement leave payouts, not pension income. City agencies, employee categories and union agreements can have different rules. Category labels alone do not establish eligibility.</p><p>Citywide mode applies your entered payout percentages and limits. Annual limits apply to combined current and vested balances before the annual percentage. Sick limits apply to payable hours after the sick percentage. Comp time is included at your hourly rate. No eligibility or service requirement is checked in custom mode. Confirm all assumptions with your retirement office.</p><p>The optional NYCPS preset retains administrative leave formulas from the original calculator. It is not a verified citywide rule. It assumes 7 hours per day, a hire date on or after July 1, 2004 and 25 annual accrual days unless changed. Service years are required for that preset. It excludes pedagogical and pension calculations.</p><a href="https://infohub.nyced.org/nyc-doe-roles/human-resources/rules-and-regulations-for-administrative-employees/payout-of-leave-balances-upon-final-separation" target="_blank" rel="noopener">NYCPS preset reference</a><p class="note">Independent, unofficial rough draft. Contact your retirement office before relying on any estimate.</p></details></main><footer>ROUGH DRAFT <span>CITY OF NY RETIREMENT CALCULATOR</span></footer><script>(function(root){
+<details class="policy"><summary>Scope and calculation notes</summary><p>Union formulas reviewed November 16, 2026. Citywide Agreement, Article V Section 17(a),(e): 10 years of service, one-half before July 1, 2004 or one-third on/after that date, maximum 120 paid workdays. NYCPS administrative lump-sum rules: 10 years of service, minimum 2 or 3 sick days, maximum balance considered 200 days and maximum payment 100 days. NYCPS UFT administrative uses one-half regardless of hire date. These presets do not cover every union or title.</p><a href="https://www.nyc.gov/assets/olr/downloads/pdf/collectivebargaining/executed-citywide-agreement-2001-2021.pdf" target="_blank" rel="noopener">Citywide Agreement, Article V Section 17 (pages 22–23)</a><p>This estimates retirement leave payouts, not pension income. City agencies, employee categories and union agreements can have different rules. Select the applicable Union policy to calculate sick leave; category labels alone do not establish coverage.</p><p>Custom mode applies your entered payout percentages and limits. Annual limits apply to combined current and vested balances before the annual percentage. Sick limits apply to payable hours after the sick percentage. Comp time is included at your hourly rate. No eligibility or service requirement is checked in custom mode. Confirm all assumptions with your retirement office.</p><p>The optional NYCPS preset retains administrative leave formulas from the original calculator. It is not a verified citywide rule. It assumes 7 hours per day, a hire date on or after July 1, 2004 and 25 annual accrual days unless changed. Service years are required for that preset. It excludes pedagogical and pension calculations.</p><a href="https://infohub.nyced.org/nyc-doe-roles/human-resources/rules-and-regulations-for-administrative-employees/payout-of-leave-balances-upon-final-separation" target="_blank" rel="noopener">NYCPS preset reference</a><p class="note">Independent, unofficial rough draft. Contact your retirement office before relying on any estimate.</p></details></main><footer>ROUGH DRAFT <span>CITY OF NY RETIREMENT CALCULATOR</span></footer><script>(function(root){
 'use strict';
 function calculate(x){
  for(const k of ['years','day','rate','vestedRate','annual','vestedAnnual','sick','vestedSick','accrual','ceiling','comp']) if(!Number.isFinite(x[k])||x[k]<0) throw new Error('Enter a valid, nonnegative value for '+k+'.');
@@ -60,22 +60,49 @@ function calculate(x){
  const total=cap===null?subtotal:Math.min(subtotal,cap);
  return {annual,sick,comp,subtotal,total,reduction:subtotal-total,cap,annualHours:annualHours+vestedHours,sickDays:sickDays+vestedDays,messages};
 }
-if(typeof module!=='undefined') module.exports={calculate}; else root.LeaveCalculator={calculate};
+
+function calculateUnion(x){
+ for(const k of ['years','day','rate','annual','vestedAnnual','sick','vestedSick','comp'])if(!Number.isFinite(x[k])||x[k]<0)throw new Error('Enter a valid, nonnegative value for '+k+'.');
+ if(x.day<=0||x.rate<=0)throw new Error('Hours per workday and hourly rate must be greater than zero.');
+ if(!['citywide','nonmanager','uft'].includes(x.profile))throw new Error('Select a supported union policy.');
+ const citywide=x.profile==='citywide',divisor=x.profile==='uft'||x.hiredBefore?2:3;
+ const balanceDays=(x.sick+x.vestedSick)/x.day,eligible=x.years>=10;
+ const consideredDays=citywide?balanceDays:Math.min(balanceDays,200);
+ const sickDays=eligible&&(citywide||balanceDays>=divisor)?Math.min(citywide?120:100,consideredDays/divisor):0;
+ const sickHours=sickDays*x.day,annualHours=x.annual+x.vestedAnnual;
+ const annual=annualHours*x.rate,sick=sickHours*x.rate,comp=x.comp*x.rate,subtotal=annual+sick+comp;
+ const policy=citywide?'Citywide Agreement: Article V, Section 17':x.profile==='uft'?'NYCPS UFT administrative sick-leave payout':'NYCPS non-managerial administrative sick-leave payout';
+ const messages=[policy+'.', 'Rule: '+(divisor===2?'one-half':'one-third')+' of '+(citywide?'accumulated sick leave; maximum 120 paid workdays.':'up to 200 accumulated sick days; maximum 100 paid workdays.'), 'Schedule: '+x.day+' hours per workday. '+(x.profile==='uft'?'UFT administrative: one-half regardless of hire date.':x.hiredBefore?'Hired before July 1, 2004.':'Hired on or after July 1, 2004.')];
+ if(!eligible)messages.push('Sick leave excluded: at least 10 years of continuous City service are required.');
+ else if(!citywide&&balanceDays<divisor)messages.push('Sick leave excluded: this policy requires at least '+divisor+' accumulated sick days.');
+ if(!citywide&&balanceDays>200)messages.push('Sick balance above 200 days excluded under NYCPS administrative policy.');
+ if(eligible&&consideredDays/divisor>(citywide?120:100))messages.push('Paid sick-leave days reduced to the policy cap.');
+ messages.push('Annual and comp leave use entered balances and hourly rate; approved carryover and agreement-specific limits are not audited.');
+ if(citywide)messages.push('This values standard terminal leave, not a guaranteed cash payout. Special service-based or major-illness alternatives are not modeled. Confirm coverage and payment method with your agency.');
+ return {annual,sick,comp,subtotal,total:subtotal,reduction:0,cap:null,annualHours,sickDays,sickHours,policy,messages};
+}
+if(typeof module!=='undefined') module.exports={calculate,calculateUnion}; else root.LeaveCalculator={calculate,calculateUnion};
 })(typeof window==='undefined'?globalThis:window);
 
 'use strict';
 const $=id=>document.getElementById(id), money=n=>new Intl.NumberFormat('en-US',{style:'currency',currency:'USD'}).format(n);
 let last=null;
 function clear(){last=null;$('breakdown').hidden=true;$('total').textContent='Ready when you are.';$('status').textContent='Inputs changed. Calculate for an updated estimate.';$('error').textContent='';}
+function unionPreset(){return $('profile').value==='union'&&$('unionGroup').value!=='custom';}
 function category(){
- const v=$('profile').value, preset=$('basis').value==='nycps',manager=v==='manager';
+ const v=$('profile').value,union=v==='union',automatic=unionPreset(),preset=!union&&$('basis').value==='nycps',manager=v==='manager';
  document.querySelectorAll('.manager').forEach(el=>{el.hidden=!preset||!manager;});
- $('unionChoice').hidden=!preset||v!=='union';
- $('customRules').hidden=preset;
- $('years').required=preset;
- $('categoryHelp').textContent=preset?'NYCPS reference preset only. Confirm that this policy applies to your title.':({manager:'Administrative and managerial employees.',nonmanager:'Original Jurisdiction employees.',union:'Union-represented employees. Use your agreement’s payout rules.',other:'Other City agencies and employee groups.'}[v])+' Citywide mode uses the optional payout assumptions below.';
+ $('unionChoice').hidden=!union;
+ $('basisChoice').hidden=union;
+ $('customRules').hidden=preset||automatic;
+ $('years').required=preset||automatic;
+ $('hire').required=(preset&&v!=='manager')||(automatic&&$('unionGroup').value!=='uft');
+ $('yearsLabel').textContent='Years of continuous service'+((preset||automatic)?' (required)':' (optional)');
+ $('years').placeholder=(preset||automatic)?'e.g. 15':'Optional in custom mode';
+ $('categoryHelp').textContent=union?'Select your applicable sick-leave policy below. Automatic rules check service, hire group and caps.':preset?'NYCPS reference preset only. Confirm that this policy applies to your title.':({manager:'Administrative and managerial employees.',nonmanager:'Original Jurisdiction employees.',other:'Other City agencies and employee groups.'}[v])+' Custom mode uses optional payout assumptions.';
  $('calculate').disabled=preset&&v==='other';
 }
+$('unionGroup').addEventListener('change',category);
 $('basis').addEventListener('change',category);
 $('profile').addEventListener('change',category);
 category();
@@ -84,6 +111,12 @@ $('form').addEventListener('change',clear);
 $('form').addEventListener('submit',e=>{e.preventDefault();clear();try{
  const x={profile:$('profile').value==='union'?$('unionGroup').value:$('profile').value,hiredBefore:$('hire').value==='before'};
  for(const k of ['years','day','rate','vestedRate','annual','vestedAnnual','sick','vestedSick','accrual','ceiling','comp'])x[k]=Number($(k).value);
+ for(const [k,v]of Object.entries(x))if(typeof v==='number'&&(!Number.isFinite(v)||v<0))throw new Error('Enter a valid, nonnegative value for '+k+'.');
+ const automatic=unionPreset();
+ if(automatic&&!$('years').value.trim())throw new Error('Enter years of continuous service to calculate union sick leave.');
+ if(automatic&&$('unionGroup').value!=='uft'&&!$('hire').value)throw new Error('Select your original hire-date group.');
+ if((automatic||($('profile').value!=='union'&&$('basis').value==='nycps'))&&$('years').value.trim()==='')throw new Error('Enter years of continuous City service to check sick-leave eligibility.');
+ if(automatic&&x.profile!=='uft'&&!$('hire').value)throw new Error('Select your original hire-date group.');
  if(!$('day').value.trim())x.day=7;
  if(!$('accrual').value.trim())x.accrual=25;
  if($('day').value.trim()==='')x.day=7;
@@ -93,7 +126,9 @@ $('form').addEventListener('submit',e=>{e.preventDefault();clear();try{
  if($('vestedRate').value.trim()==='')x.vestedRate=x.rate;
  if(autoCap)x.ceiling=x.rate*x.day*260;
  let r;
- if($('basis').value==='custom'){
+ if(automatic){
+ r=LeaveCalculator.calculateUnion(x);x.basis=r.policy;
+ }else if($('profile').value==='union'||$('basis').value==='custom'){
  const opt=(id,fallback)=>$(id).value.trim()===''?fallback:Number($(id).value);
  const ap=opt('annualPercent',100),sp=opt('sickPercent',0),al=opt('annualLimit',Infinity),sl=opt('sickLimit',Infinity),cap=opt('customCap',null);
  if(![ap,sp].every(v=>Number.isFinite(v)&&v>=0&&v<=100))throw new Error('Payout percentages must be between 0 and 100.');
@@ -102,12 +137,12 @@ $('form').addEventListener('submit',e=>{e.preventDefault();clear();try{
  r={annual,sick,comp,subtotal,total,cap,reduction:subtotal-total,annualHours,sickDays:sickHours/x.day,messages:['Custom assumptions only. Category selection does not verify entitlement or eligibility.','Annual leave: '+ap+'%; sick leave: '+sp+'%. '+(sp===0?'Sick leave is excluded until you enter a payable percentage.':''),'No limits apply unless entered. Confirm payout percentages, caps and eligibility with your retirement office.']};
  x.basis='Citywide custom assumptions';
  }else{r=LeaveCalculator.calculate(x);x.basis='NYCPS reference preset';}
- if($('basis').value==='nycps'&&x.profile==='manager'&&autoCap)r.messages.unshift('Overall cap estimated using hourly rate × hours per day × 260. Enter actual final 12-month compensation under Additional details.');
- if($('basis').value==='nycps')r.messages.unshift('Planning assumptions: '+x.day+' hours per day; '+(x.hiredBefore?'hired before July 1, 2004':'hired on or after July 1, 2004')+'.');
+ if($('profile').value!=='union'&&$('basis').value==='nycps'&&x.profile==='manager'&&autoCap)r.messages.unshift('Overall cap estimated using hourly rate × hours per day × 260. Enter actual final 12-month compensation under Additional details.');
+ if($('profile').value!=='union'&&$('basis').value==='nycps')r.messages.unshift('Planning assumptions: '+x.day+' hours per day; '+(x.hiredBefore?'hired before July 1, 2004':'hired on or after July 1, 2004')+'.');
  last={x,r};
- $('total').textContent=money(r.total);$('status').textContent='Planning estimate using your entered rates. Before taxes.';
+ $('total').textContent=money(r.total);$('status').textContent=automatic&&x.profile==='citywide'?'Estimated leave value before taxes. Terminal leave may be paid through payroll rather than as a lump sum.':'Planning estimate using your entered rates. Before taxes.';
  for(const [id,k] of [['outAnnual','annual'],['outSick','sick'],['outComp','comp'],['subtotal','subtotal'],['reduction','reduction']])$(id).textContent=money(r[k]);
- $('cap').textContent=r.cap===null?'No cap assumed':money(r.cap);
+ $('cap').textContent=r.cap===null?'No overall cap applied':money(r.cap);
  $('days').textContent='Included: '+r.annualHours.toFixed(2)+' annual leave hours and '+r.sickDays.toFixed(2)+' paid sick-leave days.';
  $('messages').replaceChildren(...r.messages.map(m=>{const li=document.createElement('li');li.textContent=m;return li;}));$('breakdown').hidden=false;
  }catch(err){$('error').textContent=err.message;}});
