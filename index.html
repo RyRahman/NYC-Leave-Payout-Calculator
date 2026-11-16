@@ -1,19 +1,116 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>The City of New York Retirement Leave Calculator</title><meta name="description" content="Estimate NYC Public Schools administrative retirement leave payouts using leave hours, service and pay rates."><link rel="stylesheet" href="style.css"></head><body>
-<header><a class="brand" href="#">Leave Calculator</a><span class="tag">RETIREMENT PLANNING</span></header>
-<main><div class="intro"><p class="eyebrow">RETIREMENT LEAVE</p><h1>What is your leave worth?</h1><p>Choose your category. Enter your hours. See your estimated payout.</p></div>
-<div class="disclaimer" role="note"><strong>Disclaimer: Rough draft</strong><p>Rough draft only. Do not rely on this calculator or its results for retirement planning or payout decisions. Contact your retirement office for official guidance and confirmation of your benefits.</p></div><div class="layout"><form id="form"><section class="main-form"><h2>Your details</h2><label>Category<select id="profile"><option value="manager">Administrative</option><option value="nonmanager">OJ</option><option value="union">Union</option><option value="other">Others</option></select></label><p id="categoryHelp" class="category-help">Administrative: NYCPS non-pedagogical managers.</p>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>City of NY Retirement Calculator</title><meta name="description" content="Estimate retirement leave payouts for City of New York employees using editable assumptions."><style>:root{font-family:Inter,Arial,sans-serif;color:#17332e;background:#f3f5ef;font-size:16px}*{box-sizing:border-box}body{margin:0}header,footer{max-width:1180px;margin:auto;display:flex;justify-content:space-between;align-items:center;padding:28px 30px}.brand{text-decoration:none;color:#17332e;font-weight:800;font-size:26px}.brand span{font-size:12px;letter-spacing:2px;margin-left:12px}.tag,.eyebrow{font-size:11px;font-weight:700;letter-spacing:2px}.tag{border:1px solid #becbc2;border-radius:20px;padding:9px 14px}main{max-width:1120px;margin:auto;padding:20px 30px 60px}.intro{max-width:770px;margin:30px 0 42px}h1{font-size:clamp(36px,5vw,58px);letter-spacing:-2px;line-height:1.1;margin:15px 0 20px}.intro>p{line-height:1.65}.scope{font-size:13px;color:#52655f}.layout{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(300px,1fr);gap:28px;align-items:start}section{background:white;border:1px solid #dae2d8;border-radius:16px;padding:28px;margin-bottom:20px}h2{font-size:18px;margin:0 0 24px}h2 span{color:#7c8f83;font-size:12px;margin-right:12px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}label{display:block;font-size:12px;font-weight:600;line-height:1.5;margin-bottom:18px}input,select{width:100%;margin-top:8px;border:1px solid #bccbc0;border-radius:7px;padding:13px;font:inherit;font-size:15px;color:#17332e;background:#fcfdfb}input:focus,select:focus,button:focus-visible{outline:3px solid #b3ce5e;outline-offset:2px}.full{grid-column:1/-1}section p,.note{font-size:12px;color:#57685f;line-height:1.7}.check{display:flex;gap:12px;align-items:start;font-weight:400}.check input{width:18px;flex-shrink:0;margin-top:3px}button{border:0;border-radius:8px;padding:16px 20px;background:#d5ed93;color:#19372c;font-size:14px;font-weight:700;cursor:pointer;width:100%;display:flex;justify-content:space-between}.result{background:#173b31;color:#fff;padding:30px;border-radius:16px}.result .eyebrow{color:#c9e49c}#total{font-size:clamp(26px,3.5vw,42px);font-weight:700;letter-spacing:-1px;margin:28px 0 10px}#status{color:#ced9d1;font-size:12px;line-height:1.6}dl{display:grid;grid-template-columns:1fr auto;gap:18px 8px;border-top:1px solid #517064;padding-top:25px;margin-top:25px;font-size:12px}dd{margin:0;text-align:right;font-weight:700}#days,#messages{font-size:12px;line-height:1.7;color:#d4e3d4}#messages{padding-left:18px}.secondary{background:transparent;color:#d5ed93;border:1px solid #79957a;margin-top:14px;justify-content:center}aside{position:sticky;top:25px}#error{color:#a42c23;font-size:13px;line-height:1.6}.policy{margin-top:25px}.policy a{color:#225b43;font-size:13px}footer{font-size:10px;letter-spacing:1.5px;border-top:1px solid #d1dccf}.manager[hidden],[hidden]{display:none!important}@media(max-width:760px){.layout{grid-template-columns:1fr}aside{position:static}.grid{gap:8px 14px}section{padding:20px}main{padding:10px 18px 35px}header,footer{padding:20px 18px}.tag{font-size:8px}.intro{margin-top:20px}.brand span{display:none}}@media print{header,.intro,form,footer,.secondary{display:none}body{background:white}.layout{display:block}aside{position:static}.result{background:white;color:black;border:1px solid #777}.result *{color:black!important}.policy{break-inside:avoid}}
+/* Simplified calculator */
+main{max-width:1040px}.intro{margin:25px 0 36px;max-width:750px}h1{font-size:clamp(34px,4.5vw,50px)}.layout{grid-template-columns:minmax(0,1.35fr) minmax(290px,1fr)}.main-form{padding:30px}.main-form h2{margin-bottom:22px}.grid label{margin-bottom:12px}.category-help{margin:-10px 0 24px;padding:10px 12px;border-radius:6px;background:#f1f5ee}details{border-top:1px solid #dde5dc;margin:14px 0 24px;padding-top:18px}summary{font-size:13px;font-weight:600;cursor:pointer}summary span{display:block;font-size:11px;font-weight:400;color:#627269;margin:7px 0 0 15px}details[open] summary{margin-bottom:18px}.policy{border:0;background:transparent;padding:10px 0;margin-top:10px}.policy p{font-size:12px;line-height:1.7;max-width:850px;color:#57685f}.policy a{color:#225b43;font-size:12px}.estimate-note{text-align:center;margin-bottom:0}button:disabled{opacity:.45;cursor:not-allowed}#total{font-size:clamp(25px,3.4vw,40px)}.result{padding:28px}footer span{font-size:9px}@media(max-width:760px){.layout{grid-template-columns:1fr}.main-form{padding:22px}footer span{display:none}}@media print{details.policy{display:none}}
+
+.disclaimer{background:#fff7df;border:1px solid #dcc78b;border-radius:10px;padding:18px 22px;margin:0 0 24px;color:#614c1b}.disclaimer strong{font-size:14px}.disclaimer p{font-size:13px;line-height:1.6;margin:7px 0 0}@media print{.disclaimer{background:white;color:black;border:2px solid black;display:block!important}}
+
+@media(max-width:440px){.grid{grid-template-columns:1fr}}
+</style></head><body>
+<header><a class="brand" href="#">City of NY</a><span class="tag">RETIREMENT PLANNING</span></header>
+<main><div class="intro"><p class="eyebrow">RETIREMENT LEAVE</p><h1>City of NY Retirement Calculator</h1><p>Estimate your retirement leave payout. Choose a category and enter your balances and hourly rate.</p></div>
+<div class="disclaimer" role="note"><strong>Disclaimer: Rough draft</strong><p>Rough draft only. Do not rely on this calculator or its results for retirement planning or payout decisions. Contact your retirement office for official guidance and confirmation of your benefits.</p></div><div class="layout"><form id="form"><section class="main-form"><h2>Your details</h2><label>Category<select id="profile"><option value="manager">Administrative</option><option value="nonmanager">OJ</option><option value="union">Union</option><option value="other">Others</option></select></label><p id="categoryHelp" class="category-help">Administrative and managerial employees.</p>
 <label id="unionChoice" hidden>Union group<select id="unionGroup"><option value="nonmanager">Other administrative union</option><option value="uft">UFT administrative</option></select></label>
-<div class="grid"><label>Annual leave hours<input id="annual" type="number" min="0" step="any" placeholder="e.g. 700" required></label><label>Sick leave hours<input id="sick" type="number" min="0" step="any" placeholder="e.g. 1,260" required></label><label>Hourly rate, $<input id="rate" type="number" min="0.01" step="any" placeholder="e.g. 60" required></label><label>Years of continuous service<input id="years" type="number" min="0" step="any" placeholder="e.g. 15" required></label></div>
-<details id="advanced"><summary>Additional details (OPTIONAL) <span>Schedule, hire date and other leave</span></summary><p>Defaults: 7 hours per day, hired on or after July 1, 2004, and 25 annual accrual days. Update these when they differ.</p><div class="grid">
-<label>Hours per workday<input id="day" type="number" min="0.01" step="any" value="7" required></label>
+<div class="grid"><label>Annual leave hours<input id="annual" type="number" min="0" step="any" placeholder="e.g. 700" required></label><label>Sick leave hours<input id="sick" type="number" min="0" step="any" placeholder="e.g. 1,260" required></label><label>Hourly rate, $<input id="rate" type="number" min="0.01" step="any" placeholder="e.g. 60" required></label><label>Years of continuous service (optional)<input id="years" type="number" min="0" step="any" placeholder="Only needed for a policy preset"></label></div>
+<details id="advanced"><summary>Additional information (optional)<span>Agency policy, payout assumptions and other leave</span></summary><p>Citywide mode starts with 100% of annual leave and 0% of sick leave, with no cap. These are editable assumptions, not confirmed benefits. Enter the rules your retirement office provides. Blank optional fields use the displayed defaults.</p>
+<label>Calculation basis<select id="basis"><option value="custom">Citywide: custom payout assumptions</option><option value="nycps">NYCPS administrative policy preset</option></select></label>
+<div id="customRules" class="grid"><label>Annual leave payable, %<input id="annualPercent" type="number" min="0" max="100" step="any" value="100" placeholder="100"></label><label>Sick leave payable, %<input id="sickPercent" type="number" min="0" max="100" step="any" value="0" placeholder="0"></label><label>Annual payout limit, hours<input id="annualLimit" type="number" min="0" step="any" placeholder="No limit assumed"></label><label>Sick payout limit, hours<input id="sickLimit" type="number" min="0" step="any" placeholder="No limit assumed"></label><label>Overall payout cap, $<input id="customCap" type="number" min="0" step="any" placeholder="No cap assumed"></label></div><div class="grid">
+<label>Hours per workday<input id="day" type="number" min="0.01" step="any" value="7" placeholder="7"></label>
 <label>Original hire date group<select id="hire"><option value="after">On or after July 1, 2004</option><option value="before">Before July 1, 2004</option></select></label>
-<label class="manager">Annual accrual, days per year<input id="accrual" type="number" min="0" step="any" value="25" required></label>
+<label class="manager">Annual accrual, days per year<input id="accrual" type="number" min="0" step="any" value="25" placeholder="25"></label>
 <label class="manager">Final 12-month compensation, $<input id="ceiling" type="number" min="0.01" step="any" placeholder="Auto estimate from hourly rate"></label>
-<label>Vested annual hours<input id="vestedAnnual" type="number" min="0" step="any" value="0" required></label>
-<label>Vested sick hours<input id="vestedSick" type="number" min="0" step="any" value="0" required></label>
-<label>Eligible comp time hours<input id="comp" type="number" min="0" step="any" value="0" required></label>
+<label>Vested annual hours<input id="vestedAnnual" type="number" min="0" step="any" value="0" placeholder="0"></label>
+<label>Vested sick hours<input id="vestedSick" type="number" min="0" step="any" value="0" placeholder="0"></label>
+<label>Eligible comp time hours<input id="comp" type="number" min="0" step="any" value="0" placeholder="0"></label>
 <label class="manager">Vested hourly rate, $<input id="vestedRate" type="number" min="0.01" step="any" placeholder="Uses hourly rate if blank"></label></div></details>
 <button type="submit" id="calculate">Calculate payout <span aria-hidden="true">↗</span></button><p class="estimate-note">Planning estimate before taxes. Uses your hourly rate; payroll may apply historical rates.</p></section></form>
 <aside><div class="result"><p class="eyebrow">ESTIMATED GROSS PAYOUT</p><div id="total">Ready when you are.</div><p id="status" aria-live="polite">Enter your balances and calculate.</p><div id="breakdown" hidden><dl><dt>Annual leave</dt><dd id="outAnnual"></dd><dt>Sick leave</dt><dd id="outSick"></dd><dt>Compensatory time</dt><dd id="outComp"></dd><dt>Before overall cap</dt><dd id="subtotal"></dd><dt>Overall payout cap</dt><dd id="cap"></dd><dt>Reduction from cap</dt><dd id="reduction"></dd></dl><p id="days"></p><ul id="messages"></ul><button type="button" class="secondary" id="print">Print / save PDF</button><button type="button" class="secondary" id="csv">Download breakdown CSV</button></div></div><p id="error" role="alert"></p><p class="note">Gross estimate before taxes. No employee data is stored or transmitted by this app.</p></aside></div>
-<details class="policy"><summary>Scope and calculation notes</summary><p>Presets cover administrative employees. Administrative means non-pedagogical management; OJ means Original Jurisdiction. Union rules depend on the employee’s title and agreement. Others requires separate policy review.</p><p>Managerial limits and eligibility use current and vested banks separately. When final 12-month compensation is blank, the cap assumes hourly rate × hours per day × 260 workdays. Enter actual compensation for a better estimate. Historical rates, approved carryover and final-year leave use may change the audited payout. Combined sick leave caps allocate vested days first in this estimate.</p><p>Does not cover pedagogues, 10-month staff, TRS transfer contributors, terminal leave Method B or pension benefits.</p><a href="https://infohub.nyced.org/nyc-doe-roles/human-resources/rules-and-regulations-for-administrative-employees/payout-of-leave-balances-upon-final-separation" target="_blank" rel="noopener">Official NYCPS payout policy ↗</a><p class="note">Rules reviewed November 16, 2026. Independent, unofficial tool.</p></details></main><footer>ROUGH DRAFT <span>RETIREMENT LEAVE ESTIMATOR</span></footer><script src="calculator.js"></script><script src="app.js"></script></body></html>
+<details class="policy"><summary>Scope and calculation notes</summary><p>This estimates retirement leave payouts, not pension income. City agencies, employee categories and union agreements can have different rules. Category labels alone do not establish eligibility.</p><p>Citywide mode applies your entered payout percentages and limits. Annual limits apply to combined current and vested balances before the annual percentage. Sick limits apply to payable hours after the sick percentage. Comp time is included at your hourly rate. No eligibility or service requirement is checked in custom mode. Confirm all assumptions with your retirement office.</p><p>The optional NYCPS preset retains administrative leave formulas from the original calculator. It is not a verified citywide rule. It assumes 7 hours per day, a hire date on or after July 1, 2004 and 25 annual accrual days unless changed. Service years are required for that preset. It excludes pedagogical and pension calculations.</p><a href="https://infohub.nyced.org/nyc-doe-roles/human-resources/rules-and-regulations-for-administrative-employees/payout-of-leave-balances-upon-final-separation" target="_blank" rel="noopener">NYCPS preset reference</a><p class="note">Independent, unofficial rough draft. Contact your retirement office before relying on any estimate.</p></details></main><footer>ROUGH DRAFT <span>CITY OF NY RETIREMENT CALCULATOR</span></footer><script>(function(root){
+'use strict';
+function calculate(x){
+ for(const k of ['years','day','rate','vestedRate','annual','vestedAnnual','sick','vestedSick','accrual','ceiling','comp']) if(!Number.isFinite(x[k])||x[k]<0) throw new Error('Enter a valid, nonnegative value for '+k+'.');
+ if(x.day<=0||x.rate<=0||x.vestedRate<=0) throw new Error('Hours per day and pay rates must be greater than zero.');
+ if(x.profile==='other') throw new Error('No verified citywide preset. Select an NYCPS administrative profile.');
+ const manager=x.profile==='manager', old=x.hiredBefore, messages=[];
+ let annualHours=x.annual, vestedHours=x.vestedAnnual, sickDays=0, vestedDays=0;
+ if(manager){
+  const multiple=x.years<=5?3:x.years<=10?4:5;
+  const limit=multiple*x.accrual*x.day;
+  annualHours=Math.min(x.annual,limit);
+  if(x.annual>limit) messages.push('Current annual leave exceeds the service-based limit. Excess excluded.');
+  if(x.years>10&&x.sick/x.day>=60) sickDays=x.sick/x.day/3;
+  else if(x.sick>0) messages.push('Current sick leave requires more than 10 years of service and at least 60 days.');
+  if(x.years>=10) vestedDays=old?Math.min(x.vestedSick/x.day,200)/2:x.vestedSick/x.day/3;
+  else if(x.vestedSick>0) messages.push('Vested sick leave requires at least 10 years of service.');
+  // Combined cap allocation is an explicit estimate, pending payroll audit.
+  vestedDays=Math.min(vestedDays,120); sickDays=Math.min(sickDays,120-vestedDays);
+  if((x.vestedSick>0&&x.sick>0)) messages.push('Combined sick cap allocated to vested leave first for this estimate. Confirm allocation and rates with payroll.');
+ }else{
+  const totalDays=(x.sick+x.vestedSick)/x.day, divisor=(old||x.profile==='uft')?2:3;
+  if(x.years>=10&&totalDays>=divisor) sickDays=Math.min(100,Math.min(totalDays,200)/divisor);
+  else if(totalDays>0) messages.push('Sick leave does not meet the service or minimum-balance requirement.');
+  // Non-managerial balances are combined and valued at the entered current rate.
+  annualHours+=vestedHours; vestedHours=0;
+ }
+ const annual=annualHours*x.rate+vestedHours*x.vestedRate;
+ const sick=sickDays*x.day*x.rate+vestedDays*x.day*x.vestedRate;
+ const comp=x.comp*(manager?x.vestedRate:x.rate), subtotal=annual+sick+comp;
+ const cap=manager?x.ceiling:null;
+ if(manager&&cap<=0) throw new Error('Enter compensation earnable in the final 12 months.');
+ const total=cap===null?subtotal:Math.min(subtotal,cap);
+ return {annual,sick,comp,subtotal,total,reduction:subtotal-total,cap,annualHours:annualHours+vestedHours,sickDays:sickDays+vestedDays,messages};
+}
+if(typeof module!=='undefined') module.exports={calculate}; else root.LeaveCalculator={calculate};
+})(typeof window==='undefined'?globalThis:window);
+
+'use strict';
+const $=id=>document.getElementById(id), money=n=>new Intl.NumberFormat('en-US',{style:'currency',currency:'USD'}).format(n);
+let last=null;
+function clear(){last=null;$('breakdown').hidden=true;$('total').textContent='Ready when you are.';$('status').textContent='Inputs changed. Calculate for an updated estimate.';$('error').textContent='';}
+function category(){
+ const v=$('profile').value, preset=$('basis').value==='nycps',manager=v==='manager';
+ document.querySelectorAll('.manager').forEach(el=>{el.hidden=!preset||!manager;});
+ $('unionChoice').hidden=!preset||v!=='union';
+ $('customRules').hidden=preset;
+ $('years').required=preset;
+ $('categoryHelp').textContent=preset?'NYCPS reference preset only. Confirm that this policy applies to your title.':({manager:'Administrative and managerial employees.',nonmanager:'Original Jurisdiction employees.',union:'Union-represented employees. Use your agreement’s payout rules.',other:'Other City agencies and employee groups.'}[v])+' Citywide mode uses the optional payout assumptions below.';
+ $('calculate').disabled=preset&&v==='other';
+}
+$('basis').addEventListener('change',category);
+$('profile').addEventListener('change',category);
+category();
+$('form').addEventListener('input',clear);
+$('form').addEventListener('change',clear);
+$('form').addEventListener('submit',e=>{e.preventDefault();clear();try{
+ const x={profile:$('profile').value==='union'?$('unionGroup').value:$('profile').value,hiredBefore:$('hire').value==='before'};
+ for(const k of ['years','day','rate','vestedRate','annual','vestedAnnual','sick','vestedSick','accrual','ceiling','comp'])x[k]=Number($(k).value);
+ if(!$('day').value.trim())x.day=7;
+ if(!$('accrual').value.trim())x.accrual=25;
+ if($('day').value.trim()==='')x.day=7;
+ if($('accrual').value.trim()==='')x.accrual=25;
+ if(x.day<=0||x.rate<=0)throw new Error('Hours per day and hourly rate must be greater than zero.');
+ const autoCap=$('ceiling').value.trim()==='';
+ if($('vestedRate').value.trim()==='')x.vestedRate=x.rate;
+ if(autoCap)x.ceiling=x.rate*x.day*260;
+ let r;
+ if($('basis').value==='custom'){
+ const opt=(id,fallback)=>$(id).value.trim()===''?fallback:Number($(id).value);
+ const ap=opt('annualPercent',100),sp=opt('sickPercent',0),al=opt('annualLimit',Infinity),sl=opt('sickLimit',Infinity),cap=opt('customCap',null);
+ if(![ap,sp].every(v=>Number.isFinite(v)&&v>=0&&v<=100))throw new Error('Payout percentages must be between 0 and 100.');
+ const annualHours=Math.min(x.annual+x.vestedAnnual,al)*ap/100,sickHours=Math.min((x.sick+x.vestedSick)*sp/100,sl);
+ const annual=annualHours*x.rate,sick=sickHours*x.rate,comp=x.comp*x.rate,subtotal=annual+sick+comp,total=cap===null?subtotal:Math.min(subtotal,cap);
+ r={annual,sick,comp,subtotal,total,cap,reduction:subtotal-total,annualHours,sickDays:sickHours/x.day,messages:['Custom assumptions only. Category selection does not verify entitlement or eligibility.','Annual leave: '+ap+'%; sick leave: '+sp+'%. '+(sp===0?'Sick leave is excluded until you enter a payable percentage.':''),'No limits apply unless entered. Confirm payout percentages, caps and eligibility with your retirement office.']};
+ x.basis='Citywide custom assumptions';
+ }else{r=LeaveCalculator.calculate(x);x.basis='NYCPS reference preset';}
+ if($('basis').value==='nycps'&&x.profile==='manager'&&autoCap)r.messages.unshift('Overall cap estimated using hourly rate × hours per day × 260. Enter actual final 12-month compensation under Additional details.');
+ if($('basis').value==='nycps')r.messages.unshift('Planning assumptions: '+x.day+' hours per day; '+(x.hiredBefore?'hired before July 1, 2004':'hired on or after July 1, 2004')+'.');
+ last={x,r};
+ $('total').textContent=money(r.total);$('status').textContent='Planning estimate using your entered rates. Before taxes.';
+ for(const [id,k] of [['outAnnual','annual'],['outSick','sick'],['outComp','comp'],['subtotal','subtotal'],['reduction','reduction']])$(id).textContent=money(r[k]);
+ $('cap').textContent=r.cap===null?'No cap assumed':money(r.cap);
+ $('days').textContent='Included: '+r.annualHours.toFixed(2)+' annual leave hours and '+r.sickDays.toFixed(2)+' paid sick-leave days.';
+ $('messages').replaceChildren(...r.messages.map(m=>{const li=document.createElement('li');li.textContent=m;return li;}));$('breakdown').hidden=false;
+ }catch(err){$('error').textContent=err.message;}});
+$('print').addEventListener('click',()=>window.print());
+$('csv').addEventListener('click',()=>{if(!last)return;const {x,r}=last;const rows=[['City of NY retirement leave payout estimate','Value'],['Disclaimer','Rough draft only. Do not rely on this calculator or its results for retirement planning or payout decisions. Contact your retirement office for official guidance and confirmation of your benefits.'],['Calculation basis',x.basis],['Profile',x.profile],['Continuous service years',x.years],['Hours per day',x.day],['Current hourly rate',x.rate],['Vested hourly rate',x.vestedRate],['Annual leave payout',r.annual],['Sick leave payout',r.sick],['Comp time payout',r.comp],['Subtotal',r.subtotal],['Overall cap',r.cap??'Agreement-specific'],['Cap reduction',r.reduction],['Gross estimate',r.total],['Assumptions','Entered rates; historical salary and payroll audit may change the amount'],...r.messages.map(m=>['Note',m])];const csv=rows.map(row=>row.map(v=>'"'+String(v).replaceAll('"','""')+'"').join(',')).join('\r\n');const url=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'}));const a=document.createElement('a');a.href=url;a.download='leave-payout-estimate.csv';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);});
+</script></body></html>
